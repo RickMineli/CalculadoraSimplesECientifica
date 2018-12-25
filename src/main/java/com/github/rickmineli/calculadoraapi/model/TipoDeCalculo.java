@@ -7,16 +7,16 @@ public enum TipoDeCalculo {
     SIMPLES {
         @Override
         public Double executaEquacao(List<Object> equacaoEmLista) {
-            Double numeroUm = (Double) equacaoEmLista.get(0);
-            Double numeroDois;
+            Double primeroNumero = (Double) equacaoEmLista.get(0);
+            Double segundoNumero;
             Operacao operacao;
 
             for (int i = 1; i < equacaoEmLista.size(); i = i + 2) {
                 operacao = Operacao.valueOf((String) equacaoEmLista.get(i));
-                numeroDois = (Double) equacaoEmLista.get(i + 1);
-                numeroUm = operacao.executarOperacao(numeroUm, numeroDois);
+                segundoNumero = (Double) equacaoEmLista.get(i + 1);
+                primeroNumero = operacao.executarOperacao(primeroNumero, segundoNumero);
             }
-            return numeroUm;
+            return primeroNumero;
         }
     },
     CIENTIFICA {
