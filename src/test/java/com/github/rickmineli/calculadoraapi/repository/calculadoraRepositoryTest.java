@@ -1,8 +1,8 @@
 package com.github.rickmineli.calculadoraapi.repository;
 
 
+import com.github.rickmineli.calculadoraapi.exception.ListaEquacaoVaziaException;
 import com.github.rickmineli.calculadoraapi.model.Calculo;
-import com.github.rickmineli.calculadoraapi.model.Operacao;
 import com.github.rickmineli.calculadoraapi.model.TipoDeCalculo;
 import org.junit.After;
 import org.junit.Assert;
@@ -38,6 +38,14 @@ public class calculadoraRepositoryTest {
         calculoRepository.save(novoCalculo);
         List<Calculo> calculos = calculoRepository.findAll();
         Assert.assertEquals(novoCalculo.getResultado(), calculos.get(0).getResultado());
+    }
+
+    @Test(expected = ListaEquacaoVaziaException.class)
+    public void naodeveSalvarUmCalculoComEquacaoVazia(){
+        List<Object> equacao = new ArrayList<>();
+        Calculo novoCalculo =  new Calculo(equacao, TipoDeCalculo.SIMPLES);
+        calculoRepository.save(novoCalculo);
+        List<Calculo> calculos = calculoRepository.findAll();
     }
 
 }
