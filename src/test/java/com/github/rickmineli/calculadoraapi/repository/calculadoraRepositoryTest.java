@@ -45,7 +45,27 @@ public class calculadoraRepositoryTest {
         List<Object> equacao = new ArrayList<>();
         Calculo novoCalculo =  new Calculo(equacao, TipoDeCalculo.SIMPLES);
         calculoRepository.save(novoCalculo);
-        List<Calculo> calculos = calculoRepository.findAll();
     }
+
+    @Test(expected = JSONInvalidoException.class)
+    public void naoDeveSalvarUmCalculoComValoresNegativos(){
+        List<Object> equacao = new ArrayList<>();
+        equacao.add(-2.0);
+        equacao.add("SUBTRACAO");
+        equacao.add(-2.0);
+        Calculo novoCalculo =  new Calculo(equacao, TipoDeCalculo.SIMPLES);
+        calculoRepository.save(novoCalculo);
+    }
+
+    @Test(expected = JSONInvalidoException.class)
+    public void naoDeveSalvarUmCalculoComDivisaoPorZero(){
+        List<Object> equacao = new ArrayList<>();
+        equacao.add(2.0);
+        equacao.add("DIVISAO");
+        equacao.add(0.0);
+        Calculo novoCalculo =  new Calculo(equacao, TipoDeCalculo.SIMPLES);
+        calculoRepository.save(novoCalculo);
+    }
+
 
 }
