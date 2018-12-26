@@ -1,5 +1,7 @@
 package com.github.rickmineli.calculadoraapi.model;
 
+import com.github.rickmineli.calculadoraapi.exception.ListaEquacaoVaziaException;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,6 +34,8 @@ public class Calculo {
     }
 
     public Calculo(List<Object> equacaoEmLista, TipoDeCalculo tipoDeCalculo) {
+        if (equacaoEmLista.isEmpty())
+                throw new ListaEquacaoVaziaException("Equacao Vazia");
         this.equacaoEmLista = equacaoEmLista;
         this.equacao = equacaoEmLista.toString().replaceAll("[\\s|,|\\[|\\]]", "")
                 .replaceAll("SOMA","+")
