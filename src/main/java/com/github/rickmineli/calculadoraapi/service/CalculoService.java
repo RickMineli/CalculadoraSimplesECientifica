@@ -17,5 +17,7 @@ public class CalculoService {
     public Calculo salvaNovoCalculo(List<Object> equacaoEmLista, TipoDeCalculo tipoDeCalculo){
         return calculoRepository.save(new Calculo(equacaoEmLista,tipoDeCalculo));
     }
-
+    public List<Calculo> buscarTodosOsCalculos (){
+        return calculoRepository.findAll();
+    }
 }
