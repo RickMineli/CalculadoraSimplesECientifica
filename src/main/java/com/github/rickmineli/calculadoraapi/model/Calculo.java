@@ -1,6 +1,6 @@
 package com.github.rickmineli.calculadoraapi.model;
 
-import com.github.rickmineli.calculadoraapi.exception.ListaEquacaoVaziaException;
+import com.github.rickmineli.calculadoraapi.exception.JSONInvalidoException;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -35,17 +35,32 @@ public class Calculo {
 
     public Calculo(List<Object> equacaoEmLista, TipoDeCalculo tipoDeCalculo) {
         if (equacaoEmLista.isEmpty())
-                throw new ListaEquacaoVaziaException("Equacao Vazia");
+            throw new JSONInvalidoException("Lista Vazia");
+        verificaValoresNegativos(equacaoEmLista);
+        verificaDivisaoPorZero(equacaoEmLista);
         this.equacaoEmLista = equacaoEmLista;
         this.equacao = equacaoEmLista.toString().replaceAll("[\\s|,|\\[|\\]]", "")
-                .replaceAll("SOMA","+")
-                .replaceAll("SUBTRACAO","-")
-                .replaceAll("MULTIPLICACAO","*")
-                .replaceAll("DIVISAO","/");
+                .replaceAll("SOMA", "+")
+                .replaceAll("SUBTRACAO", "-")
+                .replaceAll("MULTIPLICACAO", "*")
+                .replaceAll("DIVISAO", "/");
         this.tipoDeCalculo = tipoDeCalculo;
         this.dataCalculo = LocalDateTime.now();
         this.resultado = this.tipoDeCalculo.executaEquacao(this.equacaoEmLista);
+    }
 
+    private void verificaDivisaoPorZero(List<Object> equacaoEmLista) {
+        for (int i = 1; i < equacaoEmLista.size(); i = i + 2) {
+            if ((equacaoEmLista.get(i).equals(Operacao.DIVISAO.toString())) && ((Double) equacaoEmLista.get(i+1) == 0.0))
+                throw new JSONInvalidoException("Divisao por zero.");
+        }
+    }
+
+    private void verificaValoresNegativos(List<Object> equacaoEmLista) {
+        for (int i = 0; i < equacaoEmLista.size(); i = i + 2) {
+            if ((Double) equacaoEmLista.get(i) < 0)
+                throw new JSONInvalidoException("Valores Negativos");
+        }
     }
 
     public Long getId() {
