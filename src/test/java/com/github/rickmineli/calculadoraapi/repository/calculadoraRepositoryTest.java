@@ -22,20 +22,22 @@ public class calculadoraRepositoryTest {
     @Autowired
     private CalculoRepository calculoRepository;
 
+    @After
+    public void after() {
+        calculoRepository.deleteAll();
+    }
 
 
     @Test
     public void deveSalvarUmNovoCalculo(){
-        List<Object> lista = new ArrayList<>();
-        lista.add(12.0);
-        lista.add("SOMA");
-        lista.add(2.0);
-        Calculo novoCalculo =  new Calculo(lista, TipoDeCalculo.SIMPLES);
+        List<Object> equacao = new ArrayList<>();
+        equacao.add(12.0);
+        equacao.add("SOMA");
+        equacao.add(2.0);
+        Calculo novoCalculo =  new Calculo(equacao, TipoDeCalculo.SIMPLES);
         calculoRepository.save(novoCalculo);
         List<Calculo> calculos = calculoRepository.findAll();
         Assert.assertEquals(novoCalculo.getResultado(), calculos.get(0).getResultado());
     }
-
-
 
 }
