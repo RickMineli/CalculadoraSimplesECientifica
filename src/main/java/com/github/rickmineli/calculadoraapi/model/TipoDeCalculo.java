@@ -22,10 +22,6 @@ public enum TipoDeCalculo {
     CIENTIFICA {
         @Override
         public Double executaEquacao(List<Object> equacaoEmLista) {
-            Double primeroNumero;
-            Double segundoNumero;
-            Operacao operacao;
-
             for (int i = 1; i < equacaoEmLista.size(); i = i + 2) {
                 System.out.println("Entrou no for");
                 if (Operacao.MULTIPLICACAO == Operacao.valueOf((String) equacaoEmLista.get(i))) {
