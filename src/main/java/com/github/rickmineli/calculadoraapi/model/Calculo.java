@@ -36,6 +36,9 @@ public class Calculo {
     public Calculo(List<Object> equacaoEmLista, TipoDeCalculo tipoDeCalculo) {
         if (equacaoEmLista.isEmpty())
             throw new JSONInvalidoException("Lista Vazia");
+        for (int i = 0; i < equacaoEmLista.size(); i = i + 2) {
+            equacaoEmLista.set(i,Double.parseDouble((String) equacaoEmLista.get(i)));
+        }
         verificaValoresNegativos(equacaoEmLista);
         verificaDivisaoPorZero(equacaoEmLista);
         this.equacaoEmLista = equacaoEmLista;
