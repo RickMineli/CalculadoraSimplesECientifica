@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("https://calculadora-vue-rickmineli.herokuapp.com/")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("api/calculos")
 public class CalculoController {
